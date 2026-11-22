@@ -7,11 +7,11 @@
 //    because Java arrays use reference-based equals() and hashCode(), so two
 //    different char[] arrays with the same characters are treated as different keys.
 //
-//    Why: String overrides Object's equals() and hashCode() to compare contents;
-//    arrays inherit Object's implementations, which compare object identity.
+//    Why: Arrays inherit Object's implementations, which compare object identity.
 //
-// 3. Fix: Convert the sorted char[] into a String. String keys use
-//    content-based equals() and hashCode(), so matching anagrams share a key.
+// 3. Fix: Convert the sorted char[] into a String. 
+//    String overrides Object's equals() and hashCode() to compare contents;
+//    so matching anagrams share a key.
 //
 // Submitted solution:
 HashMap<String, List<String>> map = new HashMap<>();
