@@ -20,3 +20,34 @@ class Solution {
         return triplets.stream().toList();  
     }
 }
+
+// Approach 2: Sorting + Two Pointers
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        
+        Set<List<Integer>> triplets = new HashSet<>();
+        for(int i=0; i<nums.length; i++) {
+            int target = -nums[i];
+            int j=i+1;
+            int k=nums.length-1;
+            while(j<k) {
+                int sum = nums[j] + nums[k];
+                if(sum == target) {
+                    triplets.add(List.of(nums[i], nums[j], nums[k]));
+                    j++;
+                    k--;
+                } else if(sum > target) {
+                    k--;
+                } else {
+                    j++;
+                }
+            }
+        }
+        return triplets.stream().toList();  
+    }
+}
+
+// Further optimizations:
+// 1. Skip duplicate nums[i] values so we don't repeat the same search for the same first element.
+// 2. After finding a triplet, skip duplicate nums[j] and nums[k] values while moving both pointers to avoid generating duplicate triplets. This can eliminate the need for the HashSet.
