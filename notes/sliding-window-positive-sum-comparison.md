@@ -83,5 +83,3 @@ return count;
 ## Key takeaway
 
 Sliding Window works here because all numbers are positive: expanding increases the sum and shrinking decreases it. With negative numbers, that property no longer holds.
-
-**Next practice:** [LeetCode 209 — Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/).
