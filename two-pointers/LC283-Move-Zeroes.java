@@ -15,3 +15,30 @@ class Solution {
         }
     }
 }
+
+/*
+ * Standard approach: Read pointer + write pointer
+ *
+ * i scans every element; j marks where the next non-zero element belongs.
+ * Copy each non-zero element to nums[j], increment j, then fill the
+ * remaining positions with zeroes.
+ *
+ * Dry run for [0, 1, 0, 3, 12]:
+ *
+ * My find-and-swap approach:
+ * [0, 1, 0, 3, 12]
+ * [1, 0, 0, 3, 12]
+ * [1, 3, 0, 0, 12]
+ * [1, 3, 12, 0, 0]
+ *
+ * Standard read-and-write approach:
+ * [0, 1, 0, 3, 12]
+ * [1, 1, 0, 3, 12]
+ * [1, 3, 0, 3, 12]
+ * [1, 3, 12, 3, 12]
+ * [1, 3, 12, 0, 0]
+ *
+ * Both approaches take O(n) time and O(1) extra space.
+ * The standard approach has simpler pointer management, but does not
+ * necessarily perform fewer array writes for every input.
+ */
