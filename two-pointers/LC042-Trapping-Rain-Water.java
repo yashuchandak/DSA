@@ -1,8 +1,7 @@
-/*
-First attempt: horizontal-level simulation.
-// Time: O(n * H), where H is the maximum height.
-
 class Solution {
+
+    // Approach 1: Horizontal-level simulation.
+    // Time: O(n * H), where H is the maximum height.
     public int trap(int[] height) {
         int max = 0;
         for(int i=0; i<height.length; i++) {
@@ -35,15 +34,11 @@ class Solution {
         }
         return area;  
     }
-}
-*/
 
-// Second attempt: jump between boundary levels.
-// Time: O(n^2), Space: O(1).
-// Note: This implementation modifies the input array.
-
-class Solution {
-    public int trap(int[] height) {
+    // Approach 2: Jump between boundary levels.
+    // Time: O(n^2), Space: O(1).
+    // Note: This implementation modifies the input array.
+    public int trap1(int[] height) {
         int i = 0;
         int j = height.length-1;
         int area = 0;
@@ -86,20 +81,12 @@ class Solution {
         }
         return area;
     }
-}
 
-/*
-Third attempt: precompute maximum height to the right using a HashMap.
-Time: O(n), Space: O(n).
-
-Learning note:
-A HashMap is not needed here because the keys are contiguous array indices
-(0 to height.length - 1). An int[] would be a better fit: simpler, faster,
-and less memory overhead. Keep the HashMap implementation below as my attempt.
-*/
-
-class Solution {
-    public int trap(int[] height) {
+    // Approach 3: Precompute maximum height to the right using a HashMap.
+    // Time: O(n), Space: O(n).
+    // Learning note: HashMap is unnecessary for contiguous array indices.
+    // An int[] would be simpler, faster, and have less memory overhead.
+    public int trap2(int[] height) {
         HashMap<Integer, Integer> right = new HashMap<>();
         int j = height.length-1;
         int rightMax = 0;
