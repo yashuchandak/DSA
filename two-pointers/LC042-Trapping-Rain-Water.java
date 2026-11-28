@@ -88,56 +88,39 @@ class Solution {
     }
 }
 
-// Third attempt: precompute maximum height to the right using a HashMap.
-// Time: O(n), Space: O(n).
-// The HashMap is unnecessary here because the keys are contiguous array indices.
-// An int[] would be simpler, faster, and use less memory.
+/*
+Third attempt: precompute maximum height to the right using a HashMap.
+Time: O(n), Space: O(n).
 
-// Original HashMap-based solution:
-//
-// HashMap<Integer, Integer> right = new HashMap<>();
-// int j = height.length-1;
-// int rightMax = 0;
-// while(j>=0) {
-//     right.put(j, rightMax);
-//     if(height[j]>rightMax) {
-//         rightMax = height[j];
-//     }
-//     j--;
-// }
-//
-// int area = 0;
-// int leftMax = 0;
-// for(int k=0; k<height.length; k++) {
-//     int curr = Math.min(leftMax, right.get(k)) - height[k];
-//     area = area + (curr<0 ? 0:curr);
-//     if(height[k]>leftMax) {
-//         leftMax = height[k];
-//     }
-// }
-//
-// return area;
+Learning note:
+A HashMap is not needed here because the keys are contiguous array indices
+(0 to height.length - 1). An int[] would be a better fit: simpler, faster,
+and less memory overhead. Keep the HashMap implementation below as my attempt.
+*/
 
-// Array-based version of the same approach:
 class Solution {
     public int trap(int[] height) {
-        int[] right = new int[height.length];
+        HashMap<Integer, Integer> right = new HashMap<>();
+        int j = height.length-1;
         int rightMax = 0;
-
-        for(int j = height.length - 1; j >= 0; j--) {
-            right[j] = rightMax;
-            rightMax = Math.max(rightMax, height[j]);
+        while(j>=0) {
+            right.put(j, rightMax);
+            if(height[j]>rightMax) {
+                rightMax = height[j]; 
+            }
+            j--;
         }
 
         int area = 0;
         int leftMax = 0;
-
-        for(int k = 0; k < height.length; k++) {
-            int curr = Math.min(leftMax, right[k]) - height[k];
-            area += Math.max(0, curr);
-            leftMax = Math.max(leftMax, height[k]);
+        for(int k=0; k<height.length; k++) {
+            int curr = Math.min(leftMax, right.get(k)) - height[k];
+            area = area + (curr<0 ? 0:curr);
+            if(height[k]>leftMax) {
+                leftMax = height[k];
+            }
         }
-
-        return area;
+        
+        return area;  
     }
 }
