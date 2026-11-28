@@ -1,3 +1,6 @@
+/*
+First attempt: horizontal-level simulation.
+
 class Solution {
     public int trap(int[] height) {
         int max = 0;
@@ -30,5 +33,47 @@ class Solution {
             }
         }
         return area;  
+    }
+}
+*/
+
+class Solution {
+    public int trap(int[] height) {
+        int i = 0;
+        int j = height.length-1;
+        int area = 0;
+        int levelReached = 0;
+        while(i<j) {
+            while(height[i] <= levelReached) {
+                i++;
+                if(i == j) return area;
+            }
+            while(height[j] <= levelReached) {
+                j--;
+                if(i == j) return area;
+            }
+            int diffLevel = Math.min(height[i], height[j]) - levelReached;
+            int blockSum = 0;
+            for(int k=i+1; k<j; k++) {
+                int current = 0;
+                if(height[k]-levelReached > diffLevel) {
+                    current = diffLevel;
+                } else if(height[k]-levelReached > 0) {
+                    current = height[k]-levelReached;
+                }
+                blockSum = blockSum + current;
+            }
+            area = area + diffLevel*(j-i-1) - blockSum;
+            if(height[i]<height[j]) {
+                i++;
+            } else if(height[i]>height[j]) {
+                j--;
+            } else {
+                i++;
+                j--;
+            }
+            levelReached = levelReached + diffLevel;
+        }
+        return area;
     }
 }
