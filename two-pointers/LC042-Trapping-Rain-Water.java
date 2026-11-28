@@ -1,5 +1,6 @@
 /*
 First attempt: horizontal-level simulation.
+// Time: O(n * H), where H is the maximum height.
 
 class Solution {
     public int trap(int[] height) {
@@ -37,33 +38,36 @@ class Solution {
 }
 */
 
+// Second attempt: jump between boundary levels.
+// Time: O(n^2), Space: O(1).
+// Note: This implementation modifies the input array.
+
 class Solution {
     public int trap(int[] height) {
         int i = 0;
         int j = height.length-1;
         int area = 0;
-        int levelReached = 0;
         while(i<j) {
-            while(height[i] <= levelReached) {
+            while(height[i] == 0) {
                 i++;
                 if(i == j) return area;
             }
-            while(height[j] <= levelReached) {
+            while(height[j] == 0) {
                 j--;
                 if(i == j) return area;
             }
-            int diffLevel = Math.min(height[i], height[j]) - levelReached;
+            int level = Math.min(height[i], height[j]);
             int blockSum = 0;
             for(int k=i+1; k<j; k++) {
                 int current = 0;
-                if(height[k]-levelReached > diffLevel) {
-                    current = diffLevel;
-                } else if(height[k]-levelReached > 0) {
-                    current = height[k]-levelReached;
+                if(height[k] > level) {
+                    current = level;
+                } else if(height[k] > 0) {
+                    current = height[k];
                 }
                 blockSum = blockSum + current;
             }
-            area = area + diffLevel*(j-i-1) - blockSum;
+            area = area + level*(j-i-1) - blockSum;
             if(height[i]<height[j]) {
                 i++;
             } else if(height[i]>height[j]) {
@@ -72,7 +76,13 @@ class Solution {
                 i++;
                 j--;
             }
-            levelReached = levelReached + diffLevel;
+            for(int n=i; n<=j; n++) {
+                if(height[n]<level) {
+                    height[n] = 0;
+                } else {
+                    height[n] = height[n] - level;
+                }
+            }
         }
         return area;
     }
