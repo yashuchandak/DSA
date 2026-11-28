@@ -110,4 +110,28 @@ class Solution {
         
         return area;  
     }
+
+    // Approach 4: Optimal two-pointer solution.
+    // Time: O(n), Space: O(1).
+    // Process the shorter side: the opposite boundary is at least as tall,
+    // so water on this side is determined by its own running maximum.
+    public int trap3(int[] height) {
+        int area = 0;
+        int leftMax = 0;
+        int rightMax = 0;
+        int i = 0; 
+        int j = height.length-1;
+        while(i<=j) {
+            if(height[i]<height[j]) {
+                if(height[i]>leftMax) leftMax = height[i];        
+                area = area + leftMax - height[i];
+                i++;
+            } else {
+                if(height[j]>rightMax) rightMax = height[j];
+                area = area + rightMax - height[j];
+                j--;
+            }
+        }
+        return area;
+    }
 }
